@@ -22,6 +22,9 @@ zookeeper: root
 ansible: root
 cchq: root
 monit: root
+{% if commcare_cloud_root_user is defined %}
+{{ commcare_cloud_root_user }}: root
+{% endif %}
 {% if root_email is defined %}
 root: {{ root_email }}
 {% endif %}
