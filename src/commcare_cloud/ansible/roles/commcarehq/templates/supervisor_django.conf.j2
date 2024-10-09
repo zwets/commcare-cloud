@@ -10,7 +10,7 @@ command={{ app_processes_config.django_command_prefix }}{{ virtualenv_home }}/bi
     --workers {{ item.gunicorn_workers }}
     --bind 0.0.0.0:{{ django_port }}
     --log-file {{ log_home }}/{{ project }}.gunicorn.log
-    --log-level debug
+    --log-level info
 ;    Zwets disabled, there is no statsd
 ;    --statsd-host localhost:8125
 user={{ cchq_user }}
