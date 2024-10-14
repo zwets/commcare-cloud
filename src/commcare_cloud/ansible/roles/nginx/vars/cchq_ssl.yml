@@ -41,7 +41,7 @@ nginx_sites:
       max_size: "1g"
       inactive_time: "24h"
    file_name: "{{ deploy_env }}_commcare"
-   listen: "443 ssl http2{{ ' default_server' if deploy_env == primary_ssl_env else '' }}"
+   listen: "{% if behind_reverse_proxy|default(False) %}{{ reverse_proxied_port }}{% else %}443 ssl http2{{ ' default_server' if deploy_env == primary_ssl_env else '' }}{% endif %}"
    root: "/var/www/html"
    server_name: "{{ SITE_HOST }}{% if ALTERNATE_HOSTS %} {{ ALTERNATE_HOSTS | join(' ') }}{% endif %}"
    client_max_body_size: 600m
@@ -52,7 +52,7 @@ nginx_sites:
    # real_ip_header, set_real_ip_from, real_ip_recursive directives in site.j2
    # to the the real client IP address (and not just an upstream proxy)
    - "X-Forwarded-For $remote_addr"
-   - "X-Forwarded-Protocol  $scheme"
+   - "X-Forwarded-Proto {% if behind_reverse_proxy|default(False) %}https{% else %}$scheme{% endif %}"
    access_log: "{{ log_home }}/{{ deploy_env }}-timing.log timing"
    add_header:
     - 'Strict-Transport-Security "max-age={{ nginx_hsts_max_age|default(0) }}; includeSubDomains"'
