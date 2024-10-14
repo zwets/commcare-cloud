@@ -39,15 +39,6 @@
     passno: "0"
   when: datavol_device is defined
 
-- name: Create encrypted drive root directory
-  become: yes
-  file: path="{{ encrypted_root }}" owner=root group=root mode=0755 state=directory
-  tags:
-    - ecryptfs
-    - ecryptfs-blobdb
-    - mount-ecryptfs
-    - after-reboot
-
 - block:
     - name: Check for already mounted encrypted drive
       shell: grep '{{ encrypted_root }} ecryptfs' /etc/mtab
@@ -67,6 +58,13 @@
       # volume is already mounted.
       when: encrypted_root not in mtab_contents.stdout
 
+    - name: Create encrypted drive root directory
+      become: yes
+      file: path="{{ encrypted_root }}" owner=root group=root mode=0755 state=directory
+      tags:
+        - mount-ecryptfs
+        - after-reboot
+
     - name: Add encryption password to keyring
       become: yes
       shell: 'printf "%s" "{{ ECRYPTFS_PASSWORD }}" | ecryptfs-add-passphrase | grep -o "\[.*\]" | sed "s/\[//g;s/\]//g"'
@@ -83,44 +81,77 @@
       tags:
         - mount-ecryptfs
         - after-reboot
+
+    - name: "Create {{ encrypted_root }}/blobdb directory for setups that do not use NFS"
+      become: yes
+      when: not shared_drive_enabled
+      file: path="{{ encrypted_root }}/blobdb" owner=nobody group="{{ shared_dir_gid }}" mode=0775 state=directory
+      tags:
+        - ecryptfs-blobdb
+
+    - name: Create shared data dir
+      become: yes
+      file:
+        path: "{{ shared_data_dir }}"
+        owner: "nobody"
+        group: "{{ shared_dir_gid }}"
+        mode: "u=rwx,g=rwx,o=rx"
+        state: directory
+      when: not shared_drive_enabled
+      tags:
+        - ecryptfs-blobdb
+
+    - name: Create blob DB symlink (cchq looks for it in the shared drive)
+      become: yes
+      when: not shared_drive_enabled
+      file: src="{{ encrypted_root }}/blobdb" dest="{{ shared_data_dir }}/blobdb" state=link
+      tags:
+        - ecryptfs-blobdb
+
+    - name: Drop unencrypted readme in directory
+      become: yes
+      lineinfile:
+        dest: "{{ encrypted_root }}/README"
+        line: 'If you can read this file the directory is unencrypted'
+        create: yes
+        owner: root
+        group: root
+        mode: 0770
+      tags: mount-ecryptfs
   when: root_encryption_mode == 'ecryptfs'
 
-- name: "Create {{ encrypted_root }}/blobdb directory for setups that do not use NFS"
-  become: yes
-  file:
-    path="{{ encrypted_root }}/blobdb"
-    owner="{{ 'nobody' if shared_drive_enabled|bool else cchq_user }}"
-    group="{{ shared_dir_gid if shared_drive_enabled|bool else cchq_user }}"
-    mode=0775
-    state=directory
-  when: not shared_drive_enabled|bool
-  tags: ecryptfs-blobdb
+- block:
+    - name: Create non-encrypted drive root directory
+      become: yes
+      file: path="{{ encrypted_root }}" owner=root group=root mode=0755 state=directory
+      tags:
+        - mount-ecryptfs
+        - after-reboot
 
-- name: Create shared data dir
-  become: yes
-  file:
-    path: "{{ shared_data_dir }}"
-    owner: "nobody"
-    group: "{{ shared_dir_gid }}"
-    mode: "u=rwx,g=rwx,o=rx"
-    state: directory
-  when: not shared_drive_enabled|bool
-  tags: ecryptfs-blobdb
+    - name: "Create {{ encrypted_root }}/blobdb directory for setups that do not use NFS"
+      become: yes
+      when: not shared_drive_enabled|bool
+      file: path="{{ encrypted_root }}/blobdb" owner=nobody group="{{ shared_dir_gid }}" mode=0775 state=directory
+      tags:
+        - ecryptfs-blobdb
 
-- name: Create blob DB symlink (cchq looks for it in the shared drive)
-  become: yes
-  when: not shared_drive_enabled|bool
-  file: src="{{ encrypted_root }}/blobdb" dest="{{ shared_data_dir }}/blobdb" state=link
-  tags: ecryptfs-blobdb
+    - name: Create shared data dir
+      become: yes
+      file:
+        path: "{{ shared_data_dir }}"
+        owner: "nobody"
+        group: "{{ shared_dir_gid }}"
+        mode: "u=rwx,g=rwx,o=rx"
+        state: directory
+      when: not shared_drive_enabled|bool
+      tags:
+        - ecryptfs-blobdb
 
-- name: Drop unencrypted readme in directory
-  become: yes
-  lineinfile:
-    dest: "{{ encrypted_root }}/README"
-    line: 'If you can read this file the directory is unencrypted'
-    create: yes
-    owner: root
-    group: root
-    mode: 0770
-  tags: mount-ecryptfs
+    - name: Create blob DB symlink (cchq looks for it in the shared drive)
+      become: yes
+      when: not shared_drive_enabled|bool
+      file: src="{{ encrypted_root }}/blobdb" dest="{{ shared_data_dir }}/blobdb" state=link
+      tags:
+        - ecryptfs-blobdb
+  when: root_encryption_mode != 'ecryptfs'
 
