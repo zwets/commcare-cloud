@@ -21,4 +21,6 @@ kafka: root
 zookeeper: root
 {% if root_email is defined %}
 root: {{ root_email }}
+{% elif commcare_cloud_root_user is defined %}
+root: {{ commcare_cloud_root_user }}
 {% endif %}
