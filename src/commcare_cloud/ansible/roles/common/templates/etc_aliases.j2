@@ -19,9 +19,11 @@ couchdb: root
 rabbitmq: root
 kafka: root
 zookeeper: root
-ansible: root
-cchq: root
 monit: root
+ansible: root
+{% if cchq_user is defined %}
+{{ cchq_user }}: root
+{% endif %}
 {% if root_email is defined %}
 root: {{ root_email }}
 {% elif commcare_cloud_root_user is defined %}
