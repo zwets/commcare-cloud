@@ -28,7 +28,7 @@
   become: true
   tasks:
     - import_tasks: roles/ufw/tasks/proxy_ufw.yml
-      when: ufw_private_interface is defined or is_monolith|bool
+      when: ufw_private_interface is defined or (is_monolith|bool and not behind_reverse_proxy|default(False))
       tags: ufw-proxy
   tags: common
 
@@ -37,7 +37,7 @@
   become: true
   tasks:
     - ufw: state=disabled
-      when: ufw_private_interface is not defined and not is_monolith|bool
+      when: ufw_private_interface is not defined and not (is_monolith|bool and not behind_reverse_proxy|default(False))
       tags: ufw
   tags: common
 
