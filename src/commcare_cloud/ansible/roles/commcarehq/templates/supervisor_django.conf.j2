@@ -11,6 +11,7 @@ command={{ app_processes_config.django_command_prefix }}{{ virtualenv_home }}/bi
     --bind 0.0.0.0:{{ django_port }}
     --log-file {{ log_home }}/{{ project }}.gunicorn.log
     --log-level info
+    --pid /tmp/gunicorn.pid
 user={{ cchq_user }}
 autostart=true
 autorestart=true
