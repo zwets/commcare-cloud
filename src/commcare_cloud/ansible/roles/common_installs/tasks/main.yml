@@ -79,7 +79,6 @@
       - monit # service restarter
       - libcairo2
       - libpango1.0-0
-      - auditd
 
 # Install ntp package
 - name: Install NTP package when Chrony is not defined.
