@@ -46,4 +46,5 @@
   tasks:
     - import_role:
         name: dimagi.commcare_logstash.filebeat
+      when: not is_monolith
   tags: filebeat
