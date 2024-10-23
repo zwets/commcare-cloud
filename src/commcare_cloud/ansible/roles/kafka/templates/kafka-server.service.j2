@@ -6,9 +6,11 @@ After=network.target remote-fs.target zookeeper-server.service
 
 [Service]
 Environment=JMX_PORT={{ kafka_jmx_port }}
-Environment=KAFKA_GC_LOG_OPTS=-Ddummy
-Environment=KAFKA_JMX_OPTS=-Ddummy
+{% if kafka_java_home is defined %}
+Environment=JAVA_HOME={{ kafka_java_home }}
+{% endif %}
 Environment=KAFKA_HEAP_OPTS=-Xmx1g
+Environment=KAFKA_GC_LOG_OPTS=-Ddummy
 Type=simple
 User=kafka
 Group=kafka
