@@ -6,6 +6,9 @@ After=network-online.target
 
 [Service]
 Type=simple
+{% if elasticsearch_java_home is defined %}
+Environment=JAVA_HOME={{ elasticsearch_java_home }}
+{% endif %}
 Environment=ES_HOME={{ elasticsearch_home }}
 Environment=CONF_DIR={{ elasticsearch_conf_dir}}
 Environment=ES_PATH_CONF={{ elasticsearch_conf_dir}}
