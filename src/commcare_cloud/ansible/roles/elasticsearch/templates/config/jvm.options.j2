@@ -20,7 +20,12 @@
 # Xms represents the initial size of total heap space
 # Xmx represents the maximum size of total heap space
 
-{% if elasticsearch_memory is defined %}
+{% if elasticsearch_max_memory is defined %}
+-Xmx{{ elasticsearch_max_memory }}
+-XX:+UseG1GC
+-XX:G1ReservePercent=25
+-XX:InitiatingHeapOccupancyPercent=30
+{% elif elasticsearch_memory is defined %}
 -Xms{{ elasticsearch_memory }}
 -Xmx{{ elasticsearch_memory }}
 {% else %}
