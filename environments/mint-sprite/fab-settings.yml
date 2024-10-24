@@ -1,0 +1,26 @@
+# environmental defaults
+#sudo_user: cchq
+#default_branch: master
+#home: "/home/cchq"
+#project: commcare-hq
+#code_repo: 'https://github.com/dimagi/commcare-hq.git'
+#timing_log: null  # make a file path to log deploy timing to it. e.g. '../fabric-timing.txt'
+#keepalive: 60
+#ignore_kafka_checkpoint_warning: False
+#acceptable_maintenance_window: null
+#email_enabled: True
+#deploy_event_url: null
+
+# defaults from FabSettingsConfig
+#tag_deploy_commits: False
+#shared_dir_for_staticfiles: None
+#deploy_event_url: None
+#generate_deploy_diffs: True
+#custom_deploy_details: {}
+
+# Our overrides
+code_repo: 'https://github.com/zwets/commcare-hq.git'
+default_branch: sprite
+email_enabled: False
+tag_deploy_commits: True
+

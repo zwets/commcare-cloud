@@ -1,0 +1,18 @@
+pgbouncer_override:
+  pgbouncer_default_pool: 90
+  pgbouncer_max_connections: 200
+  pgbouncer_pool_mode: transaction
+  pgbouncer_pool_timeout: 1
+  pgbouncer_reserve_pool: 5
+
+postgres_override:
+  postgresql_version: '14'
+  postgresql_effective_cache_size: 3GB
+  postgresql_max_connections: 100
+  postgresql_max_stack_depth: 4MB
+  postgresql_shared_buffers: 1GB
+
+SEPARATE_FORM_PROCESSING_DBS: False
+
+dbs:
+  form_processing: null

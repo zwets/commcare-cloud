@@ -1,0 +1,5 @@
+deploy_env: mint-fanta
+env_monitoring_id: mint-fanta
+always_deploy_formplayer: false
+users:
+  - mint_ubuntu
