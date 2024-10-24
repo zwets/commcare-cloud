@@ -1,0 +1,244 @@
+# Zwets changed
+
+# Do NOT use local connection, unless you first sudo
+#ansible_connection: local
+
+# TEMP make redis install work by resume from 'DavidWittman.redis : upload redis'
+# Download tarball from: http://download.redis.io/releases/redis-7.0.10.tar.gz
+#redis_tarball: /home/ubuntu/redis-7.0.10.tar.gz
+
+# Variables added by Zwets
+# behind_proxy triggers nginx to run plain http on nginx_proxied_port
+# (rather than https), and disables ufw firewall altogether.
+behind_reverse_proxy: True
+reverse_proxied_port: 7080
+
+commcare_cloud_root_user: 'ubuntu'
+root_encryption_mode: none
+
+java_17_home: "/usr/lib/jvm/java-1.17.0-openjdk-amd64"
+# Formplayer should just use JAVA_HOME
+java_17_bin_path: "{{ java_17_home }}/bin"
+
+run_websockets_wsgi: True
+
+elasticsearch_endpoint: '{{ groups.elasticsearch.0 }}'
+elasticsearch_memory: '2048m'
+elasticsearch_cluster_name: 'mint-fanta-es'
+elasticsearch_version: 5.6.16
+elasticsearch_download_sha256: 6b035a59337d571ab70cea72cc55225c027ad142fbb07fd8984e54261657c77f.
+elasticsearch_fielddata_cache_size: "40%"
+elasticsearch_delete_old_logs: True
+#es_plugins_phonetic_enabled: False
+elasticsearch_java_home: "{{ java_17_home }}"
+elasticsearch_max_memory: '2048m'
+
+kafka_version: 3.8.0
+kafka_scala_version: 2.13
+kafka_download_sha512: sha512:0a33b7be7b6fa53249ba80f9d02cda71ed81927c160aa6ee9be1e3d3c1c4b50466ffc905293143fd88ceac7f5e7d8f5bec28ef972addd3c459cc8b1291e738aa
+kafka_inter_broker_protocol_version: 3.8
+kafka_log_message_format_version: 3.8
+# Zwets added
+kafka_java_home: "{{ java_17_home }}"
+
+zookeeper_version: 3.8.4
+zookeeper_download_sha1: sha512:4d85d6f7644d5f36d9c4d65e78bd662ab35ebe1380d762c24c12b98af029027eee453437c9245dbdf2b9beb77cd6b690b69e26f91cf9d11b0a183a979c73fa43
+
+formplayer_java_version: "{{ java_17_bin_path }}/java"
+# Is in app_processes.yml: formplayer_memory: "1024m"
+# About pool sizing: https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing
+formplayer_custom_properties:
+  spring.datasource.hikari.maximum-pool-size: 10
+  spring.datasource.hikari.minimum-idle: 2
+
+backup_blobdb: True
+backup_postgres: 'plain'
+backup_es_s3: False
+backup_couch: True
+postgres_s3: False
+blobdb_s3: False
+couch_s3: False
+
+couch_dbs:
+  default:
+    host: localhost
+    port: "{{ couchdb2_local_port }}"
+    name: commcarehq
+    username: "{{ localsettings_private.COUCH_USERNAME }}"
+    password: "{{ localsettings_private.COUCH_PASSWORD }}"
+    is_https: False
+couchdb_version: 3.3.1
+couchdb_rexi_use_kill_all: 'true'
+couchdb_use_haproxy: False
+couchdb_os_process_limit: 100
+couchdb_os_process_soft_limit: 8
+couchdb_async_io_threads: 8
+#haproxy_version: 2.4
+
+couchdb2:
+  username: "{{ localsettings_private.COUCH_USERNAME }}"
+  password: "{{ localsettings_private.COUCH_PASSWORD }}"
+
+couchdb_cluster_settings:
+  q: 8
+  r: 1
+  w: 1
+  n: 1
+
+redis_maxmemory: 2gb
+redis_maxclients: 100
+redis_databases: 4
+redis_syslog_enabled: "no"
+
+pg_repack_version: 1.4.7
+erlang: 1:25.0.4-1
+rabbitmq_version: 3.10.13-1
+
+BROKER_URL: 'redis://localhost:6379/0'
+
+KSPLICE_ACTIVE: no
+
+DATADOG_ENABLED: False
+
+nameservers: []
+internal_domain_name: null
+
+# No point in using filebeat because the DiMagi template requires logstash
+# ~/.virtualenvs/cchq/lib/python3.10/site-packages/.ansible/ansible_collections/dimagi/commcare_logstash/roles/filebeat/templates/filebeat.yml.j2
+# which runs on logproxy which we don't have or need on a monolith.
+# Zwets disabled its installation conditionally in deploy_logstash.
+#filebeat_inputs:
+#  - path: "{{ log_home }}/{{ deploy_env }}_commcare-nginx_error.log"
+#    tags:  nginx-error
+#  - path: "{{ log_home }}/{{ deploy_env }}-timing.log"
+#    tags: nginx-timing
+#filebeat_output_logstash_enabled: "{{ not is_monolith }}"
+#filebeat_enable_logging: "{{ not is_monolith }}"
+
+TWO_FACTOR_GATEWAY_ENABLED: False
+
+localsettings:
+  ALLOWED_HOSTS:
+    - "coca.zwets.it"
+  BANK_ADDRESS: ~
+  BANK_NAME: ~
+  BANK_SWIFT_CODE: ~
+  COUCH_CACHE_DOCS: True
+  COUCH_CACHE_VIEWS: True
+  COUCH_HTTPS: False
+  COUCH_PASSWORD: "{{ localsettings_private.COUCH_PASSWORD }}"
+  COUCH_SERVER_ROOT: "127.0.0.1"
+  COUCH_USERNAME: "{{ localsettings_private.COUCH_USERNAME }}"
+  COUCH_STALE_QUERY: 'update_after'
+  DEPLOY_MACHINE_NAME: "{{ ansible_hostname }}"
+  ELASTICSEARCH_MAJOR_VERSION: 5
+  # Note: EMAIL_LOGIN and EMAIL_PASSWORD are in vault.yml
+  EMAIL_SMTP_HOST: 'smtp.protonmail.ch'
+  EMAIL_SMTP_PORT: 587
+  EMAIL_USE_TLS: True
+  ENABLE_SOFT_ASSERT_EMAILS: False
+  IS_DIMAGI_ENVIRONMENT: False
+  HQ_INSTANCE: mint-fanta
+  HUBSPOT_API_ID:
+  HUBSPOT_ACCESS_TOKEN:
+  INVOICE_FROM_ADDRESS:
+    'name': "Dimagi, Inc."
+    'first_line': "585 Massachusetts Ave"
+    'city': "Cambridge"
+    'region': "MA"
+    'postal_code': "02139"
+    'country': "US"
+    'phone_number': "(617) 649-2214"
+    'email': "accounts@dimagi.com"
+    'website': "http://www.dimagi.com"
+  INVOICE_PREFIX: INC-
+  INVOICE_STARTING_NUMBER: 5000
+  J2ME_ADDRESS: ''
+  LOCAL_LOGGING_CONFIG:
+    'root':
+      'level': 'WARN'
+      'handlers': ['console', 'file']
+    'loggers':
+      'celery':
+        'handlers': [ 'file' ]
+        'level': 'WARN'
+        'propagate': False
+      'couchdbkit.request':
+        'level': 'WARN'
+      'pillowtop':
+        'level': 'WARN'
+      'django.server':
+        'level': 'WARN'
+      'celery.task':
+        'level': 'WARN'
+  PILLOW_RETRY_QUEUE_ENABLED: True
+  REDIS_DB: '0'
+  REDIS_HOST: "localhost"
+  REDIS_PORT: '6379'
+  REMINDERS_QUEUE_ENABLED: False
+  SMS_GATEWAY_URL: 'http://gw1.promessaging.com/sms.php'
+  SMS_QUEUE_ENABLED: False
+#  STATIC_ROOT:
+  ENABLE_PRELOGIN_SITE: False
+  ENTERPRISE_MODE: True
+  RESTRICT_DOMAIN_CREATION: True
+
+# Email addresses
+#
+# root_email is what /etc/aliases redirects it to, should be unprivileged user.
+# Quick install sets it to /dev/null.  Undefined should make it default to the
+# commcare_cloud_root_user, however src/commcare_cloud/ansible/group_vars/all.yml
+# stupidly defines it (commcarehq-ops+root@example.com), so we must set it here.
+root_email: ubuntu
+#
+# These two set by quick script, the rest taken from old monolith config
+server_email: commcare@zwets.it
+default_from_email: commcare@zwets.it
+#
+# See the complete list of email addresses in commcare-cloud:
+# src/commcare_cloud/ansible/group_vars/all.yml
+# https://github.com/dimagi/commcare-cloud/blob/master/src/commcare_cloud/ansible/group_vars/all.yml
+# May be nullable, but check localsettings overrides.
+server_admin_email: commcare@zwets.it
+support_email: commcare@zwets.it
+probono_support_email: commcare@zwets.it
+accounts_email: commcare@zwets.it
+data_email: commcare@zwets.it
+subscription_change_email: commcare@zwets.it
+internal_subscription_change_email: commcare@zwets.it
+billing_email: commcare@zwets.it
+invoicing_contact_email: commcare@zwets.it
+growth_email: commcare@zwets.it
+saas_ops_email: commcare@zwets.it
+saas_reporting_email: commcare@zwets.it
+master_list_email: commcare@zwets.it
+sales_email: commcare@zwets.it
+privacy_email: commcare@zwets.it
+feedback_email: commcare@zwets.it
+eula_change_email: commcare@zwets.it
+contact_email: commcare@zwets.it
+soft_assert_email: commcare@zwets.it
+daily_deploy_email: commcare@zwets.it
+check_s3_backups_email: commcare@zwets.it
+return_path_email: commcare@zwets.it
+new_domain_email: commcare@zwets.it
+solutions_aes_email: commcare@zwets.it
+
+# We don't datadog
+datadog_integration_couch: false
+datadog_integration_elastic: false
+datadog_integration_disk_check: false
+datadog_integration_gunicorn: false
+datadog_integration_haproxy: false
+datadog_integration_http: false
+datadog_integration_kafka: false
+datadog_integration_kafka_consumer: false
+datadog_integration_nginx: false
+datadog_integration_pgbouncer: false
+datadog_integration_postgres: false
+datadog_integration_postgres_receiver: false
+datadog_integration_rabbitmq: false
+datadog_integration_redisdb: false
+datadog_integration_tcp_check: false
+datadog_integration_zk: false
+
