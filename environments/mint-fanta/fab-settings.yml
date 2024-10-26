@@ -20,6 +20,7 @@
 
 # Our overrides
 code_repo: 'https://github.com/zwets/commcare-hq.git'
+# We may need to also set public/commcarehq_version
 default_branch: fanta
 email_enabled: True
 tag_deploy_commits: True
