@@ -22,5 +22,4 @@
 code_repo: 'https://github.com/zwets/commcare-hq.git'
 default_branch: sprite
 email_enabled: False
-tag_deploy_commits: True
 

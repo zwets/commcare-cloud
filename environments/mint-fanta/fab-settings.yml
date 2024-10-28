@@ -22,5 +22,4 @@
 code_repo: 'https://github.com/zwets/commcare-hq.git'
 default_branch: fanta
 email_enabled: True
-tag_deploy_commits: True
 
