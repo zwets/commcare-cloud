@@ -137,7 +137,7 @@ def _get_code_diff(environment, deploy_revs, is_resume):
         return DEPLOY_DIFF
 
     tag_commits = environment.fab_settings_config.tag_deploy_commits
-    repo_name = environment.fab_settings_config.code_repo.removeprefix('https://github.com/')
+    repo_name = environment.fab_settings_config.code_repo.removeprefix('https://github.com/').removesuffix('.git')
     repo = github_repo(repo_name, require_write_permissions=tag_commits)
 
     deployed_version = get_deployed_version(environment)
