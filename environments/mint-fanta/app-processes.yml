@@ -5,11 +5,12 @@ celery_processes:
     repeat_record_queue,celery,case_import_queue,background_queue,export_download_queue,saved_exports_queue,analytics_queue,ucr_queue,async_restore_queue,email_queue,case_rule_queue,celery_periodic:
       concurrency: 1
     beat: {}
-    flower: {}
   None:
     reminder_case_update_queue:
     reminder_rule_queue:
     sms_queue:
+    # Zwets moved here from above (under beat)
+    flower: {}
 pillows:
   fanta:
     case-pillow:
