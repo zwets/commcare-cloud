@@ -9,7 +9,7 @@ celery_processes:
     reminder_case_update_queue:
     reminder_rule_queue:
     sms_queue:
-    # Zwets moved here from above (under beat)
+    # Zwets disable unused 1.2G memory hog
     flower: {}
 pillows:
   sprite:
@@ -34,10 +34,11 @@ pillows:
       num_processes: 1
     KafkaDomainPillow:
       num_processes: 1
-    LedgerToElasticsearchPillow:
-      num_processes: 1
-    SqlSMSPillow:
-      num_processes: 1
+# Zwets remove unused pillows (and save 700M memory)
+#    LedgerToElasticsearchPillow:
+#      num_processes: 1
+#    SqlSMSPillow:
+#      num_processes: 1
     UpdateUserSyncHistoryPillow:
       num_processes: 1
     UserCacheInvalidatePillow:
