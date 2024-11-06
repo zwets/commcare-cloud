@@ -9,6 +9,8 @@ celery_processes:
     reminder_case_update_queue:
     reminder_rule_queue:
     sms_queue:
+    # Zwets added upstream 2024-11 but we don't use it (I think)
+    geospatial_queue:
     # Zwets disable unused 1.2G memory hog
     flower: {}
 pillows:
