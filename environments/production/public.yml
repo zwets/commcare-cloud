@@ -82,8 +82,6 @@ formplayer_custom_properties:
 
 KSPLICE_ACTIVE: yes
 
-run_websockets_wsgi: True
-
 couch_dbs:
   default:
     host: "{{ groups.couchdb2_alb[0] }}"
@@ -172,23 +170,23 @@ localsettings:
   # When to consider multiplex settings
   ES_MULTIPLEX_TO_VERSION: '6'
   # Index Multiplexer Settings  
-  ES_APPS_INDEX_MULTIPLEXED: True
+  ES_APPS_INDEX_MULTIPLEXED: False # Index swapped
   ES_CASE_SEARCH_INDEX_MULTIPLEXED: False # Index swapped
-  ES_CASES_INDEX_MULTIPLEXED: True
-  ES_DOMAINS_INDEX_MULTIPLEXED: True
-  ES_FORMS_INDEX_MULTIPLEXED: True
-  ES_GROUPS_INDEX_MULTIPLEXED: True
-  ES_SMS_INDEX_MULTIPLEXED: True
-  ES_USERS_INDEX_MULTIPLEXED: True
-  # Index Swap settings  
-  ES_APPS_INDEX_SWAPPED: False
+  ES_CASES_INDEX_MULTIPLEXED: False # Index swapped
+  ES_DOMAINS_INDEX_MULTIPLEXED: False # Index swapped
+  ES_FORMS_INDEX_MULTIPLEXED: False # Index swapped
+  ES_GROUPS_INDEX_MULTIPLEXED: False # Index swapped
+  ES_SMS_INDEX_MULTIPLEXED: False # Index swapped
+  ES_USERS_INDEX_MULTIPLEXED: False # Index swapped
+  # Index Swap settings
+  ES_APPS_INDEX_SWAPPED: True
   ES_CASE_SEARCH_INDEX_SWAPPED: True
-  ES_CASES_INDEX_SWAPPED: False
-  ES_DOMAINS_INDEX_SWAPPED: False
-  ES_FORMS_INDEX_SWAPPED: False
-  ES_GROUPS_INDEX_SWAPPED: False
-  ES_SMS_INDEX_SWAPPED: False
-  ES_USERS_INDEX_SWAPPED: False
+  ES_CASES_INDEX_SWAPPED: True
+  ES_DOMAINS_INDEX_SWAPPED: True
+  ES_FORMS_INDEX_SWAPPED: True
+  ES_GROUPS_INDEX_SWAPPED: True
+  ES_SMS_INDEX_SWAPPED: True
+  ES_USERS_INDEX_SWAPPED: True
   # Index settings end
   CASE_SEARCH_SUB_INDICES: {
     'co-carecoordination': {
@@ -253,7 +251,6 @@ localsettings:
         - 'ils-gateway'
         - 'ils-gateway-train'
   USER_REPORTING_METADATA_BATCH_ENABLED: True
-  WS4REDIS_CONNECTION_HOST: "redis.production.commcare.local"
   CONNECTID_URL: 'https://connectid.dimagi.com/o/userinfo'
   CONNECTID_CHANNEL_URL: 'https://connectid.dimagi.com/messaging/create_channel/'
   CONNECTID_MESSAGE_URL: 'https://connectid.dimagi.com/messaging/send_fcm/'
