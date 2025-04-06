@@ -20,8 +20,6 @@ java_17_home: "/usr/lib/jvm/java-1.17.0-openjdk-amd64"
 # Formplayer should just use JAVA_HOME
 java_17_bin_path: "{{ java_17_home }}/bin"
 
-run_websockets_wsgi: True
-
 elasticsearch_endpoint: '{{ groups.elasticsearch.0 }}'
 elasticsearch_memory: '2048m'
 elasticsearch_cluster_name: 'mint-fanta-es'
