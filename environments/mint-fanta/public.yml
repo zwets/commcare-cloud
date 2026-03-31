@@ -69,14 +69,13 @@ couch_dbs:
     username: "{{ localsettings_private.COUCH_USERNAME }}"
     password: "{{ localsettings_private.COUCH_PASSWORD }}"
     is_https: False
-couchdb_version: 3.3.1
+couchdb_version: 3.5.0
 couchdb_rexi_use_kill_all: 'true'
 couchdb_use_haproxy: False
 # Zwets added
 couchdb_os_process_limit: 100
 couchdb_os_process_soft_limit: 8
 couchdb_async_io_threads: 8
-#haproxy_version: 2.4
 
 couchdb2:
   username: "{{ localsettings_private.COUCH_USERNAME }}"
