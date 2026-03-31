@@ -45,3 +45,5 @@
         # because automatic command prefix in celery_bash_runner.sh.j2 is too complicated.
         DD_TRACE_ENABLED: False
         DD_INSTRUMENTATION_TELEMETRY_ENABLED: False
+        DD_TRACE_DJANGO_ENABLED: False
+        DD_TRACE_DEBUG: False

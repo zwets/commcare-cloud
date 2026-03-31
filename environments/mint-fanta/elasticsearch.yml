@@ -1,0 +1,25 @@
+# Zwets: considerably tune down the ES settings
+# Defined in src/commcare_cloud/environment/schemas/elasticsearch.py
+settings:
+  default:
+    number_of_shards: 1
+    number_of_replicas: 0
+# case_search:
+#   number_of_shards: 1
+# hqapps:
+#   number_of_shards: 1
+# hqcases:
+#   number_of_shards: 1
+# hqdomains:
+#   number_of_shards: 1
+# hqgroups:
+#   number_of_shards: 1
+# hqusers:
+#   number_of_shards: 1
+# ledgers:
+#   number_of_shards: 1
+# smslogs:
+#   number_of_shards: 1
+# xforms:
+#   number_of_shards: 1
+# case_search_bha:

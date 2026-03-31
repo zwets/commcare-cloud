@@ -1,0 +1,50 @@
+management_commands:
+  fanta:
+celery_processes:
+  fanta:
+    repeat_record_queue,celery,case_import_queue,background_queue,export_download_queue,saved_exports_queue,analytics_queue,ucr_queue,async_restore_queue,email_queue,case_rule_queue,celery_periodic:
+      concurrency: 1
+    beat: {}
+  None:
+    reminder_case_update_queue:
+    reminder_rule_queue:
+    sms_queue:
+    # Zwets disable unused 1.2G memory hog
+    flower: {}
+pillows:
+  fanta:
+    case-pillow:
+      num_processes: 1
+    xform-pillow:
+      num_processes: 1
+    user-pillow:
+      num_processes: 1
+    group-pillow:
+      num_processes: 1
+
+    AppDbChangeFeedPillow:
+      num_processes: 1
+    ApplicationToElasticsearchPillow:
+      num_processes: 1
+    CacheInvalidatePillow:
+      num_processes: 1
+    DefaultChangeFeedPillow:
+      num_processes: 1
+    DomainDbKafkaPillow:
+      num_processes: 1
+    KafkaDomainPillow:
+      num_processes: 1
+# Zwets remove unused pillows (and save 700M memory)
+#    LedgerToElasticsearchPillow:
+#      num_processes: 1
+#    SqlSMSPillow:
+#      num_processes: 1
+    UpdateUserSyncHistoryPillow:
+      num_processes: 1
+    UserCacheInvalidatePillow:
+      num_processes: 1
+    UserGroupsDbKafkaPillow:
+      num_processes: 1
+
+formplayer_memory: "1g"
+
