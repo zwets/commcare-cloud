@@ -23,6 +23,6 @@
 code_repo: 'https://github.com/zwets/commcare-hq.git'
 default_branch: fanta
 email_enabled: True
-# Set False in staging, monolith
-ignore_kafka_checkpoint_warning: False
+# Set True in monolith quick install
+ignore_kafka_checkpoint_warning: True
 
