@@ -1,4 +1,5 @@
 deploy_env: mint-sprite
 env_monitoring_id: mint-sprite
+always_deploy_formplayer: true
 users:
   - mint_ubuntu
