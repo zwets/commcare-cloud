@@ -21,7 +21,7 @@
 # Our overrides
 # We may need to also set public/commcarehq_version
 code_repo: 'https://github.com/zwets/commcare-hq.git'
-default_branch: sprite
+default_branch: fanta
 email_enabled: True
 # Set False in staging, monolith
 ignore_kafka_checkpoint_warning: False
