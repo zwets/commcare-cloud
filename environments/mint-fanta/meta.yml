@@ -1,0 +1,4 @@
+deploy_env: mint-fanta
+env_monitoring_id: mint-fanta
+users:
+  - mint_ubuntu
