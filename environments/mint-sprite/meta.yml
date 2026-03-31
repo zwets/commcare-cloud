@@ -1,0 +1,4 @@
+deploy_env: mint-sprite
+env_monitoring_id: mint-sprite
+users:
+  - mint_ubuntu
