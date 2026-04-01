@@ -95,7 +95,6 @@ redis_syslog_enabled: "no"
 
 pg_repack_version: 1.4.7
 erlang: 1:25.0.4-1
-rabbitmq_version: 3.10.13-1
 
 BROKER_URL: 'redis://localhost:6379/0'
 
