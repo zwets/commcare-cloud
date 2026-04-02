@@ -12,7 +12,7 @@ command={{ app_processes_config.django_command_prefix }}
     -k gevent
     --workers {{ item.gunicorn_workers }}
     --bind 0.0.0.0:{{ django_port }}
-    --log-file {{ log_home }}/{{ project }}.gunicorn.log
+    --log-file {{ log_home }}/gunicorn/{{ project }}.gunicorn.log
     --log-level debug
     --statsd-host localhost:8125
     --pid {{ www_home }}/gunicorn.pid
