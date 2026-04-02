@@ -22,7 +22,7 @@
       - logging
       logrotate_scripts:
         - name: "{{ project }}-gunicorn"
-          path: "{{ log_home }}/{{ project }}.gunicorn.log"
+          path: "{{ log_home }}/gunicorn/{{ project }}.gunicorn.log"
           options:
             - daily
             - size 50M

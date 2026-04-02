@@ -14,6 +14,7 @@
     - "{{ www_dir }}"
     - "{{ www_home }}"
     - "{{ log_home }}"
+    - "{{ log_home }}/gunicorn"
 
 # this is needed to allow syslog to write logs to `log_home`
 - name: Added syslog user to the cchq group
