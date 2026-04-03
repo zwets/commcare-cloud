@@ -61,6 +61,8 @@ postgres_s3: False
 blobdb_s3: False
 couch_s3: False
 
+pg_repack_version: 1.4.7
+
 couch_dbs:
   default:
     host: localhost
@@ -92,9 +94,6 @@ redis_maxmemory: 2gb
 redis_maxclients: 100
 redis_databases: 4
 redis_syslog_enabled: "no"
-
-pg_repack_version: 1.4.7
-erlang: 1:25.0.4-1
 
 BROKER_URL: 'redis://localhost:6379/0'
 
