@@ -1,50 +1,55 @@
 formplayer_memory: "1024m"
-# In production
-#gunicorn_workers_static_factor: 0
-#gunicorn_workers_factor: 2
 
 management_commands:
   fanta:
-    # Zwets taken from production
     run_submission_reprocessing_queue:
     queue_schedule_instances:
     handle_survey_actions:
     run_sms_queue:
     run_pillow_retry_queue:
+
 celery_processes:
   fanta:
-    repeat_record_queue,celery,case_import_queue,background_queue,export_download_queue,saved_exports_queue,analytics_queue,ucr_queue,async_restore_queue,email_queue,case_rule_queue,celery_periodic:
-      concurrency: 1
+
+    # 0. The main time keeper (should be in top-level beat_processes)
     beat: {}
-    # Zwets taken from production, linked to management_commands
-    reminder_queue:
-      concurrency: 1
-    submission_reprocessing_queue:
-      concurrency: 1
-    sms_queue:
-      concurrency: 1
+
+    # 1. Main Worker: Fast, critical tasks. Needs higher concurrency.
+    celery,submission_reprocessing_queue,background_queue,async_restore_queue,linked_domain_queue:
+      concurrency: 4
+      prefetch_multiplier: 1
+      max_tasks_per_child: 50
+
+    # 2. Data Worker: Heavy RAM/IO tasks. Low concurrency to protect your 20GB RAM.
+    case_import_queue,user_import_queue,export_download_queue,saved_exports_queue,ucr_queue,ucr_indicator_queue,analytics_queue,dashboard_comparison_queue:
+      concurrency: 2
+      prefetch_multiplier: 1
+      max_tasks_per_child: 10  # Restart more often due to heavy memory usage
+
+    # 3. Messaging/Rules Worker: Periodic and automated tasks.
+    sms_queue,email_queue,reminder_queue,reminder_rule_queue,reminder_case_update_queue,reminder_case_update_bulk_queue,repeat_record_queue,repeat_record_datasource_queue:
+      concurrency: 2
+      prefetch_multiplier: 1  # Could go up a bit if stable
+      max_tasks_per_child: 50
+
+    # 4. Background/Misc Worker: Catch-all for less frequent background tasks.
+    case_rule_queue,geospatial_queue,logistics_background_queue,logistics_reminder_queue,malt_generation_queue,ush_background_tasks,send_report_throttled:
+      concurrency: 2
+      prefetch_multiplier: 1
+      max_tasks_per_child: 10  # Restart more often as less frequent
+
+    # 5. Periodic Worker: Executes the scheduled "Beat" tasks.
+    celery_periodic:
+      concurrency: 1  # 1 is usually enough for a monolith
+      prefetch_multiplier: 1
+      max_tasks_per_child: 50
+
   None:
-    # Zwets disable unused 1.2G memory hog
     flower: {}
-    # Zwets taken from production / eu
-    analytics_queue:
-    dashboard_comparison_queue:
-    geospatial_queue:
     icds_aggregation_queue:
     icds_dashboard_reports_queue:
-    linked_domain_queue:
-    logistics_background_queue:
-    logistics_reminder_queue:
-    malt_generation_queue:
-    reminder_case_update_queue:
-    reminder_case_update_bulk_queue:
-    reminder_rule_queue:
-    repeat_record_datasource_queue:
-    send_report_throttled:
     sumologic_logs_queue:
-    ucr_indicator_queue:
-    user_import_queue:
-    ush_background_tasks:
+
 pillows:
   fanta:
     AppDbChangeFeedPillow:
