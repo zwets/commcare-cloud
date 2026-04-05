@@ -120,7 +120,7 @@ TWO_FACTOR_GATEWAY_ENABLED: False
 
 localsettings:
   ALLOWED_HOSTS:
-    - "coca.zwets.it"
+    - "commcare.mparis.or.tz"
   BANK_ADDRESS: ~
   BANK_NAME: ~
   BANK_SWIFT_CODE: ~
@@ -198,37 +198,37 @@ localsettings:
 root_email: ubuntu
 #
 # These two set by quick script, the rest taken from old monolith config
-server_email: commcare@zwets.it
-default_from_email: commcare@zwets.it
+server_email: commcare@mparis.or.tz
+default_from_email: commcare@mparis.or.tz
 #
 # See the complete list of email addresses in commcare-cloud:
 # src/commcare_cloud/ansible/group_vars/all.yml
 # https://github.com/dimagi/commcare-cloud/blob/master/src/commcare_cloud/ansible/group_vars/all.yml
 # May be nullable, but check localsettings overrides.
-server_admin_email: commcare@zwets.it
-support_email: commcare@zwets.it
-probono_support_email: commcare@zwets.it
-accounts_email: commcare@zwets.it
-data_email: commcare@zwets.it
-subscription_change_email: commcare@zwets.it
-internal_subscription_change_email: commcare@zwets.it
-billing_email: commcare@zwets.it
-invoicing_contact_email: commcare@zwets.it
-growth_email: commcare@zwets.it
-saas_ops_email: commcare@zwets.it
-saas_reporting_email: commcare@zwets.it
-master_list_email: commcare@zwets.it
-sales_email: commcare@zwets.it
-privacy_email: commcare@zwets.it
-feedback_email: commcare@zwets.it
-eula_change_email: commcare@zwets.it
-contact_email: commcare@zwets.it
-soft_assert_email: commcare@zwets.it
-daily_deploy_email: commcare@zwets.it
-check_s3_backups_email: commcare@zwets.it
-return_path_email: commcare@zwets.it
-new_domain_email: commcare@zwets.it
-solutions_aes_email: commcare@zwets.it
+server_admin_email: commcare@mparis.or.tz
+support_email: commcare@mparis.or.tz
+probono_support_email: commcare@mparis.or.tz
+accounts_email: commcare@mparis.or.tz
+data_email: commcare@mparis.or.tz
+subscription_change_email: commcare@mparis.or.tz
+internal_subscription_change_email: commcare@mparis.or.tz
+billing_email: commcare@mparis.or.tz
+invoicing_contact_email: commcare@mparis.or.tz
+growth_email: commcare@mparis.or.tz
+saas_ops_email: commcare@mparis.or.tz
+saas_reporting_email: commcare@mparis.or.tz
+master_list_email: commcare@mparis.or.tz
+sales_email: commcare@mparis.or.tz
+privacy_email: commcare@mparis.or.tz
+feedback_email: commcare@mparis.or.tz
+eula_change_email: commcare@mparis.or.tz
+contact_email: commcare@mparis.or.tz
+soft_assert_email: commcare@mparis.or.tz
+daily_deploy_email: commcare@mparis.or.tz
+check_s3_backups_email: commcare@mparis.or.tz
+return_path_email: commcare@mparis.or.tz
+new_domain_email: commcare@mparis.or.tz
+solutions_aes_email: commcare@mparis.or.tz
 
 # We don't datadog
 datadog_integration_couch: false
