@@ -143,10 +143,14 @@ def get_user_arg(public_vars, unknown_args, use_factory_auth=False):
 
 
 def run_action_with_check_mode(run_check, run_apply, skip_check, quiet=False, always_skip_check=False):
+    user_is_not_stupid = True # Zwets: set to False if you think they are
     if always_skip_check:
         user_wants_to_apply = ask(
             'This command will apply without running the check first. Continue?',
             quiet=quiet)
+    elif skip_check and user_is_not_stupid:
+        # When user explicitly SETS --skip-check then they WANT skip check, unless they're stupid
+        user_wants_to_apply = True
     elif skip_check:
         user_wants_to_apply = ask('Do you want to apply without running the check first?',
                                   quiet=quiet)
