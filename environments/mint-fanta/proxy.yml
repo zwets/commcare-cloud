@@ -1,4 +1,4 @@
-SITE_HOST: 'commcare.mparis.or.tz'
+SITE_HOST: 'cc.mparis.or.tz'
 
 trusted_proxies:
   - 10.0.3.0/24
