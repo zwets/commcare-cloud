@@ -120,7 +120,7 @@ TWO_FACTOR_GATEWAY_ENABLED: False
 
 localsettings:
   ALLOWED_HOSTS:
-    - "commcare.mparis.or.tz"
+    - "cc.mparis.or.tz"
   BANK_ADDRESS: ~
   BANK_NAME: ~
   BANK_SWIFT_CODE: ~
@@ -135,7 +135,7 @@ localsettings:
   DEPLOY_MACHINE_NAME: "{{ ansible_hostname }}"
   ELASTICSEARCH_MAJOR_VERSION: 6
   # Note: EMAIL_LOGIN and EMAIL_PASSWORD are in vault.yml
-  EMAIL_SMTP_HOST: 'smtp.protonmail.ch'
+  EMAIL_SMTP_HOST: 'cpanel.habari.co.tz'
   EMAIL_SMTP_PORT: 587
   EMAIL_USE_TLS: True
   ENABLE_SOFT_ASSERT_EMAILS: False
