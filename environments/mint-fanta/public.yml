@@ -16,10 +16,6 @@ reverse_proxied_port: 7080
 commcare_cloud_root_user: 'ubuntu'
 root_encryption_mode: none
 
-java_17_home: "/usr/lib/jvm/java-1.17.0-openjdk-amd64"
-# Formplayer should just use JAVA_HOME
-java_17_bin_path: "{{ java_17_home }}/bin"
-
 run_websockets_wsgi: True
 
 elasticsearch_endpoint: '{{ groups.elasticsearch.0 }}'
@@ -30,8 +26,6 @@ elasticsearch_download_sha256: 424af91f838f9e5f13e0292f97cbd6333535450291a621d76
 # Zwets added
 elasticsearch_fielddata_cache_size: "40%"
 elasticsearch_delete_old_logs: True
-#es_plugins_phonetic_enabled: False
-elasticsearch_java_home: "{{ java_17_home }}"
 elasticsearch_max_memory: '2048m'
 
 kafka_version: 3.8.0
@@ -39,13 +33,10 @@ kafka_scala_version: 2.13
 kafka_download_sha512: sha512:0a33b7be7b6fa53249ba80f9d02cda71ed81927c160aa6ee9be1e3d3c1c4b50466ffc905293143fd88ceac7f5e7d8f5bec28ef972addd3c459cc8b1291e738aa
 kafka_inter_broker_protocol_version: 3.8
 kafka_log_message_format_version: 3.8
-# Zwets added
-kafka_java_home: "{{ java_17_home }}"
 
 zookeeper_version: 3.8.4
 zookeeper_download_sha1: sha512:4d85d6f7644d5f36d9c4d65e78bd662ab35ebe1380d762c24c12b98af029027eee453437c9245dbdf2b9beb77cd6b690b69e26f91cf9d11b0a183a979c73fa43
 
-formplayer_java_version: "{{ java_17_bin_path }}/java"
 # Zwets added
 # Is in app_processes.yml: formplayer_memory: "1024m"
 # About pool sizing: https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing
@@ -106,8 +97,7 @@ internal_domain_name: null
 
 # No point in using filebeat because the DiMagi template requires logstash
 # ~/.virtualenvs/cchq/lib/python3.10/site-packages/.ansible/ansible_collections/dimagi/commcare_logstash/roles/filebeat/templates/filebeat.yml.j2
-# which runs on logproxy which we don't have or need on a monolith.
-# Zwets disabled its installation conditionally in deploy_logstash.
+# which runs on logproxy which we don't have or need on a monolith (so has no children in inventory)
 #filebeat_inputs:
 #  - path: "{{ log_home }}/{{ deploy_env }}_commcare-nginx_error.log"
 #    tags:  nginx-error
