@@ -86,7 +86,10 @@ redis_maxclients: 100
 redis_databases: 4
 redis_syslog_enabled: "no"
 
-BROKER_URL: 'redis://localhost:6379/0'
+REDIS_BROKER_DB: '0'
+REDIS_BROKER_HOST: 'localhost'
+REDIS_BROKER_PORT: '6379'
+BROKER_URL: "redis://{{ REDIS_BROKER_HOST }}:{{ REDIS_BROKER_PORT }}/{{ REDIS_BROKER_DB }}"
 
 KSPLICE_ACTIVE: no
 
