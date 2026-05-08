@@ -126,6 +126,8 @@ def confirm_deploy(environment, deploy_revs, rev_diffs, args):
     code_diff.print_deployer_diff()
     if code_diff.deployed_commit_matches_latest_commit and not args.quiet:
         _print_same_code_warning(deploy_revs['commcare'])
+    elif environment.name == 'staging':
+        return True
     return _ask_to_deploy(environment.name, args.quiet)
 
 
@@ -141,9 +143,11 @@ def _get_code_diff(environment, deploy_revs, is_resume):
     if DEPLOY_DIFF is not None:
         return DEPLOY_DIFF
 
-    tag_commits = environment.fab_settings_config.tag_deploy_commits
     repo_name = environment.fab_settings_config.code_repo.removeprefix('https://github.com/').removesuffix('.git')
-    repo = github_repo(repo_name, require_write_permissions=tag_commits)
+    repo = github_repo(
+        repo_name,
+        prompt_if_missing=environment.fab_settings_config.generate_deploy_diffs,
+    )
 
     deployed_version = get_deployed_version(environment)
     if is_resume:
