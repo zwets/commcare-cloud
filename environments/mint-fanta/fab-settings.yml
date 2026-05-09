@@ -22,6 +22,7 @@
 # We may need to also set public/commcarehq_version
 code_repo: 'https://github.com/zwets/commcare-hq.git'
 default_branch: fanta
+generate_deploy_diffs: False
 email_enabled: True
 # Set True in monolith quick install
 ignore_kafka_checkpoint_warning: True
