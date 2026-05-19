@@ -40,7 +40,7 @@ def deploy_commcare(environment, args, unknown_args):
     context = DeployContext(
         service_name="CommCare HQ",
         revision=args.commcare_rev,
-        diff=_get_code_diff(environment, deploy_revs, args.resume),
+        diff=_get_code_diff(environment, deploy_revs, args.resume, skip_token_prompt=args.private),
         start_time=datetime.utcnow(),
         resume=args.resume
     )
@@ -138,7 +138,7 @@ def _ask_to_deploy(env_name, quiet):
 DEPLOY_DIFF = None
 
 
-def _get_code_diff(environment, deploy_revs, is_resume):
+def _get_code_diff(environment, deploy_revs, is_resume, skip_token_prompt=False):
     global DEPLOY_DIFF
     if DEPLOY_DIFF is not None:
         return DEPLOY_DIFF
@@ -146,7 +146,7 @@ def _get_code_diff(environment, deploy_revs, is_resume):
     repo_name = environment.fab_settings_config.code_repo.removeprefix('https://github.com/').removesuffix('.git')
     repo = github_repo(
         repo_name,
-        prompt_if_missing=environment.fab_settings_config.generate_deploy_diffs,
+        prompt_if_missing=not skip_token_prompt and environment.fab_settings_config.generate_deploy_diffs,
     )
 
     deployed_version = get_deployed_version(environment)
