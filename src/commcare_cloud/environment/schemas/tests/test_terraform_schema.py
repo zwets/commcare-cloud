@@ -1,4 +1,5 @@
-from nose.tools import assert_raises
+import pytest
+
 from commcare_cloud.environment.schemas.terraform import (
     ServerConfig, RdsInstanceConfig, RdsParameterGroupConfig, RDS_DEFAULT_PARAMS,
 )
@@ -7,7 +8,7 @@ from commcare_cloud.environment.schemas.terraform import (
 def test_single_server():
     server_spec = ServerConfig.wrap({
         'server_name': 'server0-test',
-        'os': 'bionic'
+        'os': 'jammy'
     })
     try:
         server_spec.get_host_group_name()
@@ -26,7 +27,7 @@ def test_multi_server():
     server_spec = ServerConfig.wrap({
         'server_name': 'server_a{i}-test',
         'count': 2,
-        'os': 'bionic',
+        'os': 'jammy',
     })
     assert server_spec.get_host_group_name() == 'server_a'
     assert server_spec.get_all_server_names() == ['server_a000-test', 'server_a001-test']
@@ -67,7 +68,7 @@ def test_rds_instance_config():
     })
     assert instance_with_param_group.parameter_group == 'pg18-params-staging'
 
-    with assert_raises(ValueError) as context:
+    with pytest.raises(ValueError) as context:
         RdsInstanceConfig.wrap({
             'identifier': 'pg0-staging',
             'instance_type': 'db.t4g.large',
@@ -76,6 +77,6 @@ def test_rds_instance_config():
             'parameter_group': 'pg18-params-staging',
             'params': {'shared_preload_libraries': 'pg_stat_statements'},
         })
-    message = str(context.exception)
+    message = str(context.value)
     assert 'pg0-staging' in message
     assert 'mutually exclusive' in message

@@ -177,8 +177,7 @@ Server name/group: postgresql, proxy, webworkers, ... The server
 name/group may be prefixed with 'username@' to login as a
 specific user and may be terminated with '[<n>]' to choose one of
 multiple servers if there is more than one in the group. For
-example: webworkers[0] will pick the first webworker. May also be
-omitted for environments with only a single server.
+example: webworkers[0] will pick the first webworker.
 
 Use '-' for default (django_manage[0])
 
@@ -189,7 +188,7 @@ Use '-' for default (django_manage[0])
 Connect to a remote host with ssh.
 
 ```
-commcare-cloud <env> ssh [--quiet] [server]
+commcare-cloud <env> ssh [--quiet] server
 ```
 
 This will also automatically add the ssh argument `-A`
@@ -208,8 +207,7 @@ Server name/group: postgresql, proxy, webworkers, ... The server
 name/group may be prefixed with 'username@' to login as a
 specific user and may be terminated with '[<n>]' to choose one of
 multiple servers if there is more than one in the group. For
-example: webworkers[0] will pick the first webworker. May also be
-omitted for environments with only a single server.
+example: webworkers[0] will pick the first webworker.
 
 Use '-' for default (django_manage[0])
 
@@ -724,7 +722,7 @@ Don't output the command to be run.
 Connect to a remote host with ssh and open a tmux session.
 
 ```
-commcare-cloud <env> tmux [--quiet] [server] [remote_command]
+commcare-cloud <env> tmux [--quiet] server [remote_command]
 ```
 
 When used with --control, this command skips the slow setup.
@@ -746,8 +744,7 @@ Server name/group: postgresql, proxy, webworkers, ... The server
 name/group may be prefixed with 'username@' to login as a
 specific user and may be terminated with '[<n>]' to choose one of
 multiple servers if there is more than one in the group. For
-example: webworkers[0] will pick the first webworker. May also be
-omitted for environments with only a single server.
+example: webworkers[0] will pick the first webworker.
 
 Use '-' for default (django_manage[0])
 
@@ -1309,8 +1306,8 @@ Manage services.
 
 ```
 commcare-cloud <env> service [--only PROCESS_PATTERN]
-                             {celery,citusdb,commcare,couchdb2,elasticsearch,elasticsearch-classic,formplayer,kafka,nginx,pillowtop,postgresql,rabbitmq,redis,webworker}
-                             [{celery,citusdb,commcare,couchdb2,elasticsearch,elasticsearch-classic,formplayer,kafka,nginx,pillowtop,postgresql,rabbitmq,redis,webworker} ...]
+                             {celery,commcare,couchdb2,elasticsearch,elasticsearch-classic,formplayer,kafka,nginx,pillowtop,postgresql,redis,webworker}
+                             [{celery,commcare,couchdb2,elasticsearch,elasticsearch-classic,formplayer,kafka,nginx,pillowtop,postgresql,redis,webworker} ...]
                              {start,stop,restart,status,logs,help}
 ```
 
@@ -1332,7 +1329,7 @@ service and the `pgbouncer` service. We'll call the actual services
 
 ##### Positional Arguments
 
-###### `{celery,citusdb,commcare,couchdb2,elasticsearch,elasticsearch-classic,formplayer,kafka,nginx,pillowtop,postgresql,rabbitmq,redis,webworker}`
+###### `{celery,commcare,couchdb2,elasticsearch,elasticsearch-classic,formplayer,kafka,nginx,pillowtop,postgresql,redis,webworker}`
 
 The name of the service group(s) to apply the action to.
 There is a preset list of service groups that are supported.
@@ -1743,13 +1740,13 @@ have been made to our actual resources in AWS.
 Port forward to access a remote admin console
 
 ```
-commcare-cloud <env> forward-port {couch,elasticsearch,flower,rabbit}
+commcare-cloud <env> forward-port {couch,elasticsearch,flower}
 ```
 
 ##### Positional Arguments
 
-###### `{couch,elasticsearch,flower,rabbit}`
+###### `{couch,elasticsearch,flower}`
 
-The remote service to port forward. Must be one of couch,elasticsearch,flower,rabbit.
+The remote service to port forward. Must be one of couch,elasticsearch,flower.
 
 ---

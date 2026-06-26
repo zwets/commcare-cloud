@@ -204,7 +204,7 @@ OLD_S3_BLOB_DB_SETTINGS = {
     'access_key': {% if old_s3_blob_db_access_key %}'{{ old_s3_blob_db_access_key }}'{% else %}None{% endif %},
     'secret_key': {% if old_s3_blob_db_secret_key %}'{{ old_s3_blob_db_secret_key }}'{% else %}None{% endif %},
     's3_bucket': '{{ old_s3_blob_db_s3_bucket }}',
-    'bulk_delete_chunksize': {{ old_s3_bulk_delete_chunksize }},
+    'bulk_delete_chunksize': {{ s3_bulk_delete_chunksize }},
     'config': {'signature_version': 's3v4'},
 }
 BLOB_DB_MIGRATING_FROM_S3_TO_S3 = {{ localsettings.BLOB_DB_MIGRATING_FROM_S3_TO_S3 }}
@@ -384,12 +384,7 @@ REDIS_BROKER_PORT = {{ REDIS_BROKER_PORT }}
 REDIS_BROKER_DB = {{ REDIS_BROKER_DB }}
 {% endif %}
 
-{% if OLD_BROKER_URL and celery_broker_migration|default(False) %}
-CELERY_BROKER_READ_URL = BROKER_READ_URL = '{{ OLD_BROKER_URL }}'
-CELERY_BROKER_WRITE_URL = BROKER_WRITE_URL = '{{ BROKER_URL }}'
-{% else %}
 CELERY_BROKER_URL = BROKER_URL = '{{ BROKER_URL }}'
-{% endif %}
 {% if 'CELERY_BROKER_HEARTBEAT' in localsettings and localsettings.CELERY_BROKER_HEARTBEAT %}
 CELERY_BROKER_HEARTBEAT = {{ localsettings.CELERY_BROKER_HEARTBEAT }}
 {% endif %}
@@ -761,10 +756,6 @@ DATADOG_APP_KEY = '{{ DATADOG_APP_KEY }}'
 
 METRICS_PROVIDERS = {{ metrics_providers | to_json }}
 
-{% if prometheus_celery_pushgateway is defined %}
-PROMETHEUS_PUSHGATEWAY_HOST = os.environ.get('PROMETHEUS_PUSHGATEWAY_HOST', None)
-{% endif %}
-
 {% if TWO_FACTOR_GATEWAY_ENABLED %}
 TWO_FACTOR_SMS_GATEWAY = 'corehq.apps.hqwebapp.two_factor_gateways.Gateway'
 TWO_FACTOR_CALL_GATEWAY = 'corehq.apps.hqwebapp.two_factor_gateways.Gateway'
@@ -991,10 +982,6 @@ TRANSIFEX_DETAILS = {
 
 {% if localsettings.KAFKA_API_VERSION is defined or kafka_version is defined %}
 KAFKA_API_VERSION = tuple({{ localsettings.KAFKA_API_VERSION|default(kafka_version.split('.')|map('int')|list) }})
-{% endif %}
-
-{% if localsettings.ICDS_USE_CITUS is defined %}
-ICDS_USE_CITUS = {{ localsettings.ICDS_USE_CITUS }}
 {% endif %}
 
 {% if localsettings.STATIC_DATA_SOURCE_PROVIDERS is defined %}

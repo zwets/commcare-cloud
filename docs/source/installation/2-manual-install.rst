@@ -187,7 +187,8 @@ Install system dependencies
     ::
 
         $ sudo apt update
-        $ sudo apt install python3-pip python3-dev python3-distutils python3-venv libffi-dev sshpass net-tools git
+        $ sudo apt install libffi-dev sshpass net-tools git
+        $ sudo snap install astral-uv --classic
 
 2.  Configure Git:
 
@@ -213,9 +214,7 @@ Install and Configure CommCare Cloud
 
     ::
 
-        $ git clone https://github.com/dimagi/commcare-cloud.git
-        $ cd commcare-cloud
-        $ source control/init.sh
+        $ source <(curl -s https://raw.githubusercontent.com/dimagi/commcare-cloud/master/control/init.sh)
 
     When prompted, confirm setting up the CommCare Cloud environment on
     login:
@@ -407,9 +406,6 @@ Install and Configure CommCare Cloud
        [formplayer:children]
        webworker2
 
-       [rabbitmq:children]
-       webworker1
-
        [postgresql:children]
        db1
        db2
@@ -455,7 +451,7 @@ Install and Configure CommCare Cloud
     ::
 
         $ export COMMCARE_CLOUD_ENVIRONMENTS=$HOME/environments
-        $ manage-commcare-cloud configure
+        $ uv run manage-commcare-cloud configure
 
     You will see a few prompts that will guide you through the
     installation. Answer the questions as follows for a standard

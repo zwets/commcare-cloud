@@ -24,9 +24,6 @@ couchdb@*_files
 **/migrations/*/migration_build_*/
 **/migrations/*/copy_file_scripts_*/
  
- # pyenv
-.python-version
-
  # direnv
 .envrc
 .direnv
@@ -36,3 +33,4 @@ couchdb@*_files
 
 /quick_monolith_install/install-config.yml
 /docs/build
+/src/commcare_cloud/ansible/deploy_prometheus.yml

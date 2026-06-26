@@ -18,10 +18,6 @@ postgres_s3: True
 postgresql_backup_weeks: 1
 postgresql_backup_days: 1
 
-citus_version: 9.4
-citus_postgresql_version: 12
-citus_postgresql_port: 5432
-
 aws_region: 'ap-south-1'
 
 formplayer_java_version: "{{ java_17_bin_path }}/java"
@@ -49,11 +45,8 @@ zookeeper_version: 3.7.1
 zookeeper_download_sha1: sha512:9103628a50745fa1a289bca666fda4a9c08ec17c55cf13e66887e7ba76e93dbae60a1f1ffd6c10798be3a16069344ecbc00cebb29bf03d9cd7096ccd098ed011
 zookeeper_cluster: True
 
-# Celery Broker URL
-REDIS_BROKER_DB: '0'
+# Celery Broker
 REDIS_BROKER_HOST: "broker.india.commcare.local"
-REDIS_BROKER_PORT: '6379'
-BROKER_URL: "redis://{{ REDIS_BROKER_HOST }}:{{ REDIS_BROKER_PORT }}/{{ REDIS_BROKER_DB }}"
 
 
 control_machine_ip: 10.162.36.196
@@ -109,7 +102,6 @@ TWO_FACTOR_GATEWAY_ENABLED: True
 
 localsettings:
   ALLOWED_HOSTS:
-    - "{{ CAS_SITE_HOST }}"
     - "{{ J2ME_SITE_HOST }}"
   ALLOW_MAKE_SUPERUSER_COMMAND: False  
   ASYNC_INDICATORS_TO_QUEUE: 30000
