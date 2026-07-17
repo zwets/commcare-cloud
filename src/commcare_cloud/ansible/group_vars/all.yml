@@ -47,6 +47,11 @@ couchdb_version: 2.3.1
 couchdb2_port: 15984
 couchdb2_local_port: "{{ 15986 if couchdb_version is version('3.0.0', '<') else couchdb2_port }}"
 couchdb2_proxy_port: "{{ 35984 if couchdb_use_haproxy else 25984 }}"
+
+# Used by TASK [andrewrothstein.couchdb-cluster-apt : configurate....]
+# couchdb_admins value is a dict
+couchdb_admins: "{{ {COUCH_USERNAME: COUCH_PASSWORD} }}"
+
 # mostly part of couchdb setup, but also needed outside of those roles by e.g. deploy_cloudwatch_logs.yml
 # which needs this variable to construct its logic on all machines, not just couchdb machines.
 couchdb_dir: "/opt/couchdb"
@@ -116,6 +121,10 @@ new_domain_email: inquiries@example.com
 solutions_aes_email: null
 show_maintenance_updates_on_deploy: true
 
+# These UPPER_CASE names are a public per-environment config interface:
+# deployments set them and templates (localsettings.py.j2, ...) read them, so
+# renaming to lowercase would break existing deployments. var-naming for this
+# file is kept in .ansible-lint-ignore (it can't be suppressed inline in a vars file).
 ALTERNATE_HOSTS: []
 REDIS_BROKER_DB: '0'
 REDIS_BROKER_PORT: '6379'
