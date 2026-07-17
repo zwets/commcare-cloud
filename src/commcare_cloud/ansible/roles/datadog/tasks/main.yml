@@ -43,6 +43,7 @@
     dest: /etc/apt/keyrings/
     owner: root
     group: root
+    mode: '0644'
 
 - name: Add new datadog apt repository
   apt_repository:
@@ -52,7 +53,8 @@
 - name: Install datadog agent
   apt:
     name: datadog-agent
-    state: latest
+    # datadog-agent is intentionally kept current for security fixes
+    state: latest  # noqa: package-latest
     cache_valid_time: 7200
     install_recommends: no
 
@@ -75,6 +77,7 @@
     dest: /etc/datadog-agent/datadog.yaml
     owner: dd-agent
     group: dd-agent
+    mode: '0640'
   notify: restart datadog
 
 - name: Make sure datadog agent is started
