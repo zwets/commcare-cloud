@@ -101,11 +101,6 @@ internal_domain_name: null
 # No point in using filebeat because the DiMagi template requires logstash
 # ~/.virtualenvs/cchq/lib/python3.10/site-packages/.ansible/ansible_collections/dimagi/commcare_logstash/roles/filebeat/templates/filebeat.yml.j2
 # which runs on logproxy which we don't have or need on a monolith (so has no children in inventory)
-#filebeat_inputs:
-#  - path: "{{ log_home }}/{{ deploy_env }}_commcare-nginx_error.log"
-#    tags:  nginx-error
-#  - path: "{{ log_home }}/{{ deploy_env }}-timing.log"
-#    tags: nginx-timing
 #filebeat_output_logstash_enabled: "{{ not is_monolith }}"
 #filebeat_enable_logging: "{{ not is_monolith }}"
 

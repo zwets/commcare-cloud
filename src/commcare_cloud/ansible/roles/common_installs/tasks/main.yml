@@ -90,6 +90,7 @@
   become: yes
   community.general.snap:
     name: [astral-uv]
+    classic: true
 
 - name: Install pip packages
   become: yes
@@ -102,4 +103,4 @@
   become: yes
   pip:
     name: [uv]
-    absent: true
+    state: absent
