@@ -107,11 +107,12 @@ class CeleryProcess(namedtuple('CeleryProcess', ['name', 'required', 'is_queue',
 
 
 CELERY_PROCESSES = [
+    CeleryProcess("24_hour_queue", required=False, blockage_threshold=24 * 60 * 60),
     CeleryProcess("analytics_queue", blockage_threshold=30 * 60),
     CeleryProcess("async_restore_queue", required=False, blockage_threshold=60),
     CeleryProcess("background_queue", blockage_threshold=10 * 60),
     CeleryProcess("beat", required=False, is_queue=False),
-    CeleryProcess("case_rule_queue", blockage_threshold=60 * 60),
+    CeleryProcess("case_rule_queue", blockage_threshold=4 * 60 * 60),
     CeleryProcess("case_import_queue", blockage_threshold=60),
     CeleryProcess("celery", blockage_threshold=60),
     CeleryProcess("celery_periodic", required=False, blockage_threshold=10 * 60),
