@@ -65,7 +65,7 @@ servers:
     server_auto_recovery: true
 
   - server_name: "celerybeat_a2-india"
-    server_instance_type: "t3a.xlarge"
+    server_instance_type: "t3a.large"
     network_tier: "app-private"
     az: "a"
     volume_size: 60
@@ -314,7 +314,7 @@ rds_instances:
     storage: 500
     storage_type: gp3
     multi_az: true
-    engine_version: "14.18"
+    engine_version: "14.24"
     params:
       max_connections: "125"
 
